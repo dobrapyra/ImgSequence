@@ -97,6 +97,18 @@
 
     drawFrame: function(frame) {
       this.ctx.drawImage(this.image, frame.x, frame.y, this.frameW, this.frameH, 0, 0, this.w, this.h);
+    },
+
+    getTween: function(Tween, fps) {
+      var frameObj = {
+        frame: 0
+      };
+
+      return Tween.fromTo(frameObj, this.frames / fps, {
+        frame: 0
+      }, {
+        frame: this.frames - 1
+      });
     }
 
   });
