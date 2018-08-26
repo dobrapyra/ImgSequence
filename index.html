@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ImgSequence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div id="imgseq"></div>
+  <script src="imgsequence.js"></script>
+  <script>
+    var imgseq = new ImgSequence({
+      el: document.getElementById('imgseq'),
+      src: 'https://gka.github.io/canvid/images/canvid-example.jpg',
+      frames: 102,
+      cols: 6,
+      onReady: function() {
+        console.log( 'ready' );
+      }
+    });
+  </script>
+</body>
+</html>
