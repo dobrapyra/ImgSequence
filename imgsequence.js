@@ -25,16 +25,12 @@
       this.cols = cfg.cols || 1;
       this.w = cfg.width || 1280;
       this.h = cfg.height || 720;
-      this.onReady = cfg.onReady || function(){};;
+      this.onReady = cfg.onReady || function(){};
       // #endregion config
 
       // #region bind this
-      this.loadImage = this.loadImage.bind(this);
       this.onImegeReady = this.onImegeReady.bind(this);
-      this.createLut = this.createLut.bind(this);
-      this.createCanvas = this.createCanvas.bind(this);
-      this.setFrame = this.setFrame.bind(this);
-      this.drawFrame = this.drawFrame.bind(this);
+      this.onTweenUpdate = this.onTweenUpdate.bind(this);
       // #endregion bind this
 
       this.image = this.loadImage();
@@ -84,7 +80,9 @@
       Object.assign(canvas.style, {
         position: 'relative',
         width: '100%',
-        height: 'auto'
+        height: 'auto',
+        margin: '0 auto',
+        maxWidth: this.w + 'px'
       });
 
       this.el.appendChild(canvas);
@@ -97,6 +95,38 @@
 
     drawFrame: function(frame) {
       this.ctx.drawImage(this.image, frame.x, frame.y, this.frameW, this.frameH, 0, 0, this.w, this.h);
+    },
+
+    getTween: function(Tween, fps) {
+      if(
+        !( ( TweenLite && Tween === TweenLite ) ||
+        ( TweenMax && Tween === TweenMax ) )
+      ) {
+        console.warn( 'Unsupported Tween engine. Please use GSAP TweenLite or TweenMax.' );
+        return null;
+      }
+
+      if( !Power0 ) {
+        console.warn( 'Missing GSAP Power0 ease.' );
+        return null;
+      }
+
+      this.tweenObj = {
+        frame: 0
+      };
+
+      return Tween.fromTo(this.tweenObj, this.frames / fps, {
+        frame: 0
+      }, {
+        frame: this.frames - 1,
+        ease: Power0.easeNone,
+        onUpdate: this.onTweenUpdate,
+        onUpdateParams: [this.tweenObj]
+      });
+    },
+
+    onTweenUpdate: function(tweenObj) {
+      this.setFrame(Math.round(tweenObj.frame));
     }
 
   });

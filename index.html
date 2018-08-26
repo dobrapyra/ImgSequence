@@ -8,15 +8,26 @@
 </head>
 <body>
   <div id="imgseq"></div>
+  <button onclick="tween.play()">Play</button>
+  <button onclick="tween.pause()">Pause</button>
+  <button onclick="tween.resume()">Resume</button>
+  <button onclick="tween.reverse()">Reverse</button>
+  <button onclick="tween.restart()">Restart</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenLite.min.js"></script>
   <script src="imgsequence.js"></script>
   <script>
+    var tween = null;
     var imgseq = new ImgSequence({
       el: document.getElementById('imgseq'),
-      src: 'https://gka.github.io/canvid/images/canvid-example.jpg',
-      frames: 102,
+      // src: 'https://gka.github.io/canvid/images/canvid-example.jpg',
+      src: 'examplevideo.jpg',
+      frames: 66,
       cols: 6,
       onReady: function() {
-        console.log( 'ready' );
+        console.log( 'Image sequence ready!' );
+        tween = imgseq.getTween(TweenLite, 24);
+        tween.pause();
+        tween.seek(0);
       }
     });
   </script>
